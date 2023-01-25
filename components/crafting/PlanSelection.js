@@ -25,7 +25,7 @@ const PlanSelection = ({ plan }) => {
 					{plan.name}
 				</div>
 				<div className='p-1 text-gray-800 dark:text-gray-200'>
-					<div>Cost: {plan.silvercoinCost.toLocaleString()} Silver</div>
+					<div>Cost: {plan.hroCost.toLocaleString()} Hro Poins</div>
 					<div>
 						Requirements:{" "}
 						{plan.requirements.map((item, i) => [

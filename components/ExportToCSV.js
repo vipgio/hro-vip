@@ -1,13 +1,12 @@
 import { CSVLink } from "react-csv";
 const ExportToCSV = ({ data, filename, type }) => {
 	const headers = {
-		mint: ["Mint", "Title", "Owner", "ID", "Signed", "Points", "Point gain"],
+		mint: ["Mint", "Title", "Owner", "ID", "Points", "Point gain"],
 		market: [
 			"Mint",
 			"Title",
 			"Seller",
 			"ID",
-			"Signed",
 			"Type",
 			"Points",
 			"Point gain",
@@ -22,7 +21,6 @@ const ExportToCSV = ({ data, filename, type }) => {
 			"Listed",
 			"Immutable",
 			"ID",
-			"Signed",
 			"Points",
 			"Point Gain",
 		],
@@ -36,7 +34,6 @@ const ExportToCSV = ({ data, filename, type }) => {
 					item.title,
 					item.owner.username,
 					item.id,
-					item.signatureImage ? "Yes" : "No",
 					(item.rating * 10).toFixed(2),
 					item.delta,
 			  ])
@@ -45,16 +42,13 @@ const ExportToCSV = ({ data, filename, type }) => {
 					`${item[item.type].mintBatch}${item[item.type].mintNumber}`,
 					item.title,
 					item.user.username,
-					item.card ? item.card.id : item.sticker.id,
-					item.card ? (item.card.signatureImage ? "Yes" : "No") : "No",
+					item.card.id,
 					item.type,
 					(item[item.type].rating * 10).toFixed(2),
 					item.delta,
 					item.minOffer ? item.minOffer : "-",
 					item.price,
-					`https://hro.gg/DC/marketplace/${item.type}/${
-						item.card ? item.card.cardTemplateId : item.sticker.stickerTemplateId
-					}/${item.marketId}`,
+					`https://app.hro.gg/DC/marketplace/${item.type}/${item.card.cardTemplateId}/${item.marketId}`,
 			  ])
 			: type === "compact"
 			? data.map((item) => [
@@ -70,7 +64,6 @@ const ExportToCSV = ({ data, filename, type }) => {
 					item.status === "market" ? "Yes" : "No",
 					item.status === "imx_locked" ? "Yes" : "No",
 					item.id,
-					item.signed ? "Yes" : "No",
 					(item.rating * 10).toFixed(2),
 					Math.max(item.delta, 0),
 			  ]);

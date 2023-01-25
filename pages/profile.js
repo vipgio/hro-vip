@@ -55,7 +55,10 @@ const Profile = () => {
 												|{" "}
 											</span>
 										),
-										<Link href={features[option].link} key={option}>
+										<Link
+											href={features[option] ? features[option].link : ""}
+											key={option}
+										>
 											<a className='my-outline rounded hover:text-main-500'>
 												{features[option].name}
 											</a>
@@ -88,9 +91,6 @@ const Profile = () => {
 									{user.user.created.split("T")[0]}
 								</span>
 							</div>
-
-							<div>{user.user.banned ? "Banned lol" : "Not banned (yet)"}</div>
-
 							<div>
 								User ID:{" "}
 								<span className='font-semibold text-main-500'>{user.user.id}</span>
@@ -160,5 +160,4 @@ const features = {
 	trades: { name: "Trades", link: "" },
 	feed: { name: "Custom Feed", link: "" },
 	transfer: { name: "Account Transfer", link: "/transfer" },
-	vip: { name: "Stuff", link: "/vip" },
 };

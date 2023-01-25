@@ -1,6 +1,5 @@
 import { useState } from "react";
 import sortBy from "lodash/sortBy";
-import { FaSignature } from "react-icons/fa";
 
 const CompactList = ({ results }) => {
 	const [sortMethod, setSortMethod] = useState("mint");
@@ -38,41 +37,17 @@ const CompactList = ({ results }) => {
 						{sortBy(
 							results,
 							sortMethod === "mint"
-								? [
-										"mintBatch",
-										"mintNumber",
-										(o) => -o.signatureImage,
-										(o) => -o.owned,
-										"inCirculation",
-								  ]
+								? ["mintBatch", "mintNumber", (o) => -o.owned, "inCirculation"]
 								: sortMethod === "owned"
-								? [
-										(o) => -o.owned,
-										"mintBatch",
-										"mintNumber",
-										(o) => -o.signatureImage,
-										"inCirculation",
-								  ]
-								: [
-										"inCirculation",
-										"mintBatch",
-										"mintNumber",
-										(o) => -o.signatureImage,
-										(o) => -o.owned,
-								  ]
+								? [(o) => -o.owned, "mintBatch", "mintNumber", "inCirculation"]
+								: ["inCirculation", "mintBatch", "mintNumber", (o) => -o.owned]
 						).map((item) => (
 							<tr
 								className='border-b bg-white transition-colors hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
 								key={item.id}
 							>
-								<td
-									className={`py-1 px-2 sm:py-3 sm:px-6 ${
-										item.signatureImage ? "text-yellow-400" : ""
-									}`}
-									title={item.signatureImage ? "Signed" : undefined}
-								>
+								<td className='py-1 px-2 sm:py-3 sm:px-6'>
 									<div className='flex items-center justify-center'>
-										{item.signatureImage && <FaSignature className='mr-2' />}
 										{item.mintBatch}
 										{item.mintNumber}
 									</div>

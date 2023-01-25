@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FaSignature, FaLock, FaBan, FaHistory } from "react-icons/fa";
+import { FaLock, FaBan, FaHistory } from "react-icons/fa";
 import { useTrade } from "hooks/useTrade";
 import { UserContext } from "context/UserContext";
 import HistoryModal from "components/HistoryModal";
@@ -37,14 +37,8 @@ const FullListRow = React.memo(({ item, owner, isSelfScan, ownedItems }) => {
 			}`}
 			key={item.id}
 		>
-			<td
-				className={`py-1 px-2 sm:py-3 sm:px-6 ${
-					item.signatureImage ? "text-yellow-400" : ""
-				}`}
-				title={item.signatureImage ? "Signed" : undefined}
-			>
+			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<span className='flex items-center justify-center'>
-					{item.signatureImage && <FaSignature className='mr-2' />}
 					{item.mintBatch}
 					{item.mintNumber}
 				</span>
@@ -64,12 +58,7 @@ const FullListRow = React.memo(({ item, owner, isSelfScan, ownedItems }) => {
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<span className='relative flex h-8 items-center justify-center'>
 					{user.info.allowed.includes("history") ? (
-						item.type === "sticker" ? (
-							<FaBan
-								title="Doesn't work with stickers"
-								className='fill-gray-900 dark:fill-current'
-							/>
-						) : showHistory ? (
+						showHistory ? (
 							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} />
 						) : (
 							<button onClick={openModal}>

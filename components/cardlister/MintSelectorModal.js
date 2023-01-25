@@ -79,13 +79,7 @@ const MintSelectorModal = React.memo(
 															key={card.id}
 															className='flex w-full px-1 text-gray-700 dark:text-gray-300'
 														>
-															<label
-																htmlFor={card.id}
-																className={`${
-																	card.signatureImage ? "text-yellow-400" : ""
-																} hover:cursor-pointer`}
-																title={card.signatureImage ? "Signed" : ""}
-															>
+															<label htmlFor={card.id} className='hover:cursor-pointer'>
 																{card.mintBatch}
 																{card.mintNumber}
 															</label>

@@ -7,7 +7,7 @@ const PackResults = React.memo(
 	({ pack }) => {
 		const [showOdds, setShowOdds] = useState(false);
 		return (
-			<div className='relative m-2 flex border-t border-gray-700 p-2 dark:border-gray-300'>
+			<div className='relative m-2 flex p-2'>
 				<div className='w-4/12 pt-1 sm:w-1/5'>
 					<ImageWrapper
 						src={`https://cdn.hro.gg${
@@ -24,6 +24,12 @@ const PackResults = React.memo(
 					<div>
 						Number of cards in pack:{" "}
 						<span className='font-semibold text-main-500'>{pack.entityCount}</span>
+						<div>
+							Season:{" "}
+							<span className='font-semibold text-main-500'>
+								{pack.properties.seasons[0]}
+							</span>
+						</div>
 					</div>
 					{pack.purchaseStart && (
 						<div>
@@ -33,30 +39,31 @@ const PackResults = React.memo(
 							</span>
 						</div>
 					)}
-					<div>
-						Inventory Count:{" "}
-						<span className='font-semibold text-main-500'>{pack.inventoryCount}</span>
-					</div>
-					<div>
-						Season:{" "}
-						<span className='font-semibold text-main-500'>
-							{pack.properties.seasons[0]}
-						</span>
-					</div>
 					{pack.marketStart && (
 						<div>
 							Market start:{" "}
 							<span className='font-semibold text-main-500'>{pack.marketStart}</span>
 						</div>
 					)}
+					<div>
+						Inventory Count:{" "}
+						<span className='font-semibold text-main-500'>{pack.inventoryCount}</span>
+					</div>
+					<div>
+						Burned: <span className='font-semibold text-red-500'>{pack.burned}</span>
+					</div>
 					{pack.cost < 9999 && (
 						<div>
 							Price:{" "}
 							<span className='font-semibold text-main-500'>
-								{pack.cost} {pack.costType}
+								{pack.cost} {pack.costType.toUpperCase()}
 							</span>
 						</div>
 					)}
+					<div>
+						User Limit:{" "}
+						<span className='font-semibold text-main-500'>{pack.userLimit}</span>
+					</div>
 					<div>
 						Pack ID: <span className='font-semibold text-main-500'>{pack.id}</span>
 					</div>
@@ -85,9 +92,14 @@ const PackResults = React.memo(
 							</svg>
 						</a>
 					</div>
-					<button onClick={() => setShowOdds((prev) => !prev)} className='simple-button'>
-						{showOdds ? "Hide odds" : "Show odds"}
-					</button>
+					{!!pack.treatmentsChance.length > 0 && (
+						<button
+							onClick={() => setShowOdds((prev) => !prev)}
+							className='simple-button'
+						>
+							{showOdds ? "Hide odds" : "Show odds"}
+						</button>
+					)}
 					{showOdds && <PackOdds odds={pack.treatmentsChance} />}
 				</div>
 			</div>

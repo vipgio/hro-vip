@@ -6,7 +6,7 @@ import SetSelector from "HOC/SetSelector";
 import LoadingSpin from "@/components/LoadingSpin";
 
 const Circulation = () => {
-	const { getCardCirc, getStickerCirc, loading, setLoading } = useContext(UserContext);
+	const { getCardCirc, loading, setLoading } = useContext(UserContext);
 	const [collection, setCollection] = useState({ info: {}, items: [] });
 	const [selectedCollection, setSelectedCollection] = useState(null);
 
@@ -19,11 +19,10 @@ const Circulation = () => {
 		try {
 			setCollection({ info: {}, items: [] });
 			const { data: cards } = await getCardCirc(selectedCollection.collection.id);
-			const { data: stickers } = await getStickerCirc(selectedCollection.collection.id);
-			if (cards.success && stickers.success) {
+			if (cards.success) {
 				setCollection((collection) => ({
 					...collection,
-					items: [...cards.data, ...stickers.data],
+					items: cards.data,
 				}));
 				setLoading(false);
 			}
@@ -36,7 +35,7 @@ const Circulation = () => {
 	return (
 		<>
 			<Meta title='Circulation | Hro VIP' />
-			<div className='mt-10 flex flex-col items-center'>
+			<div className='flex flex-col items-center'>
 				<div className='flex h-full w-full flex-col items-center justify-center pt-10'>
 					<div className='px-4 pt-2 text-center font-semibold text-gray-700 dark:text-gray-300'>
 						Selected Collection:

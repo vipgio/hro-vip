@@ -69,18 +69,14 @@ const Scanner = () => {
 			? setOwnedItems(
 					//pick the best set
 					sortBy(
-						[...own.cards, ...own.stickers].map((item) =>
-							pickObj(item, selectedCollection)
-						),
+						own.cards.map((item) => pickObj(item, selectedCollection)),
 						["mintBatch", "mintNumber"]
 					)
 			  )
 			: setOwnedItems(
 					//pick the best 5 sets
 					sortBy(
-						[...data.cards, ...data.stickers].map((item) =>
-							pickObj(item, selectedCollection)
-						),
+						data.cards.map((item) => pickObj(item, selectedCollection)),
 						["mintBatch", "mintNumber"]
 					).reduce(
 						(previousValue, currentValue) =>
@@ -91,9 +87,7 @@ const Scanner = () => {
 						[]
 					)
 			  );
-		setScanResults(
-			[...data.cards, ...data.stickers].map((item) => pickObj(item, selectedCollection))
-		);
+		setScanResults(data.cards.map((item) => pickObj(item, selectedCollection)));
 		setLoading(false);
 	};
 	return (
@@ -191,16 +185,15 @@ export default Scanner;
 
 const pickObj = (item, selectedCollection) => {
 	return {
-		templateId: item.cardTemplateId ? item.cardTemplateId : item.stickerTemplateId,
+		templateId: item.cardTemplateId,
 		id: item.id,
 		mintBatch: item.mintBatch,
 		mintNumber: item.mintNumber,
 		type: item.type,
 		status: item.status,
 		rating: item.rating,
-		signatureImage: item.signatureImage,
 		collectionId: selectedCollection.collection.id,
-		title: item.type === "card" ? undefined : item.stickerTemplate.title,
-		inCirculation: item.type === "card" ? undefined : item.stickerTemplate.inCirculation,
+		title: undefined,
+		inCirculation: undefined,
 	};
 };

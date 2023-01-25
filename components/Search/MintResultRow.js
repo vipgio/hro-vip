@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaSignature, FaLock, FaBan, FaHistory } from "react-icons/fa";
+import { FaLock, FaBan, FaHistory } from "react-icons/fa";
 import HistoryModal from "../HistoryModal";
 
 const MintResultRow = ({ item, allowed }) => {
@@ -10,14 +10,8 @@ const MintResultRow = ({ item, allowed }) => {
 	};
 	return (
 		<tr className='border-b border-gray-300 bg-gray-100 text-center text-gray-800 hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600'>
-			<td
-				className={`py-1 px-2 sm:py-3 sm:px-6 ${
-					item.signatureImage ? "text-yellow-500" : ""
-				}`}
-				title={item.signatureImage && "Signed"}
-			>
+			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<div className='flex items-center justify-center'>
-					{item.signatureImage && <FaSignature className='mr-2' />}
 					{item.mintBatch}
 					{item.mintNumber}
 				</div>
@@ -42,9 +36,7 @@ const MintResultRow = ({ item, allowed }) => {
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<div className='relative flex h-8 items-center justify-center'>
 					{allowed ? (
-						item.type !== "card" ? (
-							<FaBan title="Doesn't work with stickers" />
-						) : showHistory ? (
+						showHistory ? (
 							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} />
 						) : (
 							<button onClick={openModal}>

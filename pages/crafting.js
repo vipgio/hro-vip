@@ -22,29 +22,11 @@ const Crafting = () => {
 		return data;
 	};
 
-	const getUserSlots = async () => {
-		const { data } = await axios.get(`/api/crafting/user-slots`, {
-			headers: {
-				jwt: user.jwt,
-			},
-		});
-		return data;
-	};
-
 	const getData = async () => {
 		try {
 			const data = await getPlans();
 			setPlans(data.data.plans);
-			const slots = await getUserSlots();
-			const freeSlots = slots.data.slots.filter((slot) => !slot.used);
-			if (freeSlots.length === 0) {
-				toast.error("You have no available slots. Contact me or staff to resolve", {
-					toastId: "slots_full",
-				});
-			} else {
-				setSlots(freeSlots);
-				setLoading(false);
-			}
+			setLoading(false);
 		} catch (err) {
 			setLoading(false);
 			console.log(err);

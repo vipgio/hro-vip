@@ -21,26 +21,15 @@ const ScanResult = React.memo(
 			const ownedRating = ownedItem ? ownedItem?.rating : 0;
 			return {
 				...result,
-				signatureImage: result.signatureImage ? true : false,
 				rating: Number(result.rating),
-				title:
-					result.type === "card"
-						? templates.find((template) => template.id === result.templateId).title
-						: result.title,
-				inCirculation:
-					result.type === "card"
-						? templates.find((template) => template.id === result.templateId)
-								.inCirculation
-						: result.inCirculation,
-				type: result.type === "card" ? "card" : "sticker",
+				title: templates.find((template) => template.id === result.templateId).title,
+				inCirculation: templates.find((template) => template.id === result.templateId)
+					.inCirculation,
+				type: result.type,
 				delta: !isSelfScan && fixDecimal((result.rating - ownedRating) * 10),
 			};
 		});
-		const sortedInc = sortBy(strippedResults, [
-			"mintBatch",
-			"mintNumber",
-			(o) => -o.signatureImage,
-		]);
+		const sortedInc = sortBy(strippedResults, ["mintBatch", "mintNumber"]);
 		const sorted = sortedInc.map((item, index, self) => {
 			const firstPosition = self.findIndex((o) => o.templateId === item.templateId);
 			if (firstPosition === index) {

@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
-import { FaSignature } from "react-icons/fa";
 import { UserContext } from "context/UserContext";
 import ExportToCSV from "../ExportToCSV";
 import MintResultRow from "./MintResultRow";
@@ -19,9 +18,7 @@ const MintResults = ({
 }) => {
 	const { user } = useContext(UserContext);
 
-	const suffix = filter.sigsOnly
-		? "Signatures"
-		: filter.upgradesOnly
+	const suffix = filter.upgradesOnly
 		? "Point Upgrades"
 		: `[${filter.batch}${filter.min}-${filter.batch}${filter.max}]`;
 
@@ -46,7 +43,8 @@ const MintResults = ({
 			loading={loading}
 			closingFunction={() => (finished.current = true)}
 			stopButton={
-				!finished.current && (
+				!finished.current &&
+				loading && (
 					<button
 						className='ml-2 rounded bg-red-400 p-1 font-semibold text-gray-800 hover:bg-red-500 active:bg-red-600 dark:text-gray-200'
 						onClick={() => (finished.current = true)}
@@ -72,10 +70,7 @@ const MintResults = ({
 					</thead>
 					<tbody>
 						{uniqBy(
-							sortBy(results, [
-								(o) => o.mintNumber,
-								(o) => (o.cardTemplateId ? o.cardTemplateId : o.stickerTemplateId),
-							]),
+							sortBy(results, [(o) => o.mintNumber, (o) => o.cardTemplateId]),
 							(o) => o.id
 						).map((item) => (
 							<MintResultRow
@@ -89,17 +84,10 @@ const MintResults = ({
 			</div>
 			{results.length > 0 && (
 				<div className='flex p-3'>
-					<div className='ml-2 flex items-center text-yellow-500'>
-						<FaSignature className='mr-2' /> Signed Item
-					</div>
-
 					<div className='ml-auto'>
 						<ExportToCSV
 							data={uniqBy(
-								sortBy(results, [
-									(o) => o.mintNumber,
-									(o) => (o.cardTemplateId ? o.cardTemplateId : o.stickerTemplateId),
-								]),
+								sortBy(results, [(o) => o.mintNumber, (o) => o.cardTemplateId]),
 								(o) => o.id
 							)}
 							filename={`${selectedCollection.collection.properties.seasons[0]} - ${selectedCollection.collection.properties.tiers[0]} - ${selectedCollection.collection.name} - ${suffix} - Users`}

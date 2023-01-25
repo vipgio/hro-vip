@@ -60,7 +60,7 @@ const CardGallery = React.memo(
 									},
 								});
 								if (data.success) {
-									if (!filter.sigsOnly && !filter.upgradesOnly) {
+									if (!filter.upgradesOnly) {
 										const foundCards = data.data.cards
 											.filter(
 												(item) =>
@@ -85,56 +85,6 @@ const CardGallery = React.memo(
 											});
 										if (foundCards.length > 0)
 											setResults((prev) => [...prev, ...foundCards]);
-
-										const foundtickers = data.data.stickers
-											.filter(
-												(item) =>
-													item.mintNumber >= filter.min &&
-													item.mintNumber <= filter.max &&
-													selectedCards.some(
-														(selCard) => selCard.id === item.stickerTemplateId
-													)
-											)
-											.map((item) => {
-												const ownedItem = owned.find(
-													(own) => own.templateId === item.stickerTemplateId
-												);
-												const ownedRating = ownedItem ? ownedItem?.rating : 0;
-												return {
-													...pickObj(item),
-													owner: leaderboardUser,
-													title: selectedCards.find(
-														(o) => o.id === item.stickerTemplateId
-													).title,
-													delta: fixDecimal((item.rating - ownedRating) * 10),
-												};
-											});
-										if (foundtickers.length > 0)
-											setResults((prev) => [...prev, ...foundtickers]);
-									} else if (filter.sigsOnly) {
-										const found = data.data.cards
-											.filter(
-												(card) =>
-													card.signatureImage &&
-													selectedCards.some(
-														(selCard) => selCard.id === card.cardTemplateId
-													)
-											)
-											.map((item) => {
-												const ownedItem = owned.find(
-													(own) => own.templateId === item.cardTemplateId
-												);
-												const ownedRating = ownedItem ? ownedItem?.rating : 0;
-												return {
-													...pickObj(item),
-													owner: leaderboardUser,
-													title: selectedCards.find((o) => o.id === item.cardTemplateId)
-														.title,
-													delta: fixDecimal((item.rating - ownedRating) * 10),
-												};
-											});
-
-										if (found.length > 0) setResults((prev) => [...prev, ...found]);
 									} else if (filter.upgradesOnly) {
 										const foundCards = data.data.cards
 											.map((item) => {
@@ -160,32 +110,6 @@ const CardGallery = React.memo(
 											.filter((item) => item && item.delta > 0);
 										if (foundCards.length > 0)
 											setResults((prev) => [...prev, ...foundCards]);
-
-										const foundStickers = data.data.stickers
-											.map((item) => {
-												const ownedItem = owned.find(
-													(own) => own.templateId === item.stickerTemplateId
-												);
-												const ownedRating = ownedItem ? ownedItem?.rating : 0;
-												const delta = fixDecimal((item.rating - ownedRating) * 10);
-												if (
-													selectedCards.some(
-														(selCard) => selCard.id === item.stickerTemplateId
-													)
-												) {
-													return {
-														...pickObj(item),
-														owner: leaderboardUser,
-														title: selectedCards.find(
-															(o) => o.id === item.stickerTemplateId
-														).title,
-														delta: delta,
-													};
-												}
-											})
-											.filter((item) => item && item.delta > 0);
-										if (foundStickers.length > 0)
-											setResults((prev) => [...prev, ...foundStickers]);
 									}
 								}
 							} catch (err) {
@@ -238,7 +162,7 @@ const CardGallery = React.memo(
 					const ownedRating = ownedItem ? ownedItem?.rating : 0;
 					let accepted = [];
 					if (item.type === "card") {
-						if (!filter.sigsOnly && !filter.upgradesOnly) {
+						if (!filter.upgradesOnly) {
 							//normal search, follow filters
 							accepted = data.data.market[0].filter(
 								(listing) =>
@@ -246,30 +170,11 @@ const CardGallery = React.memo(
 									listing.card.mintNumber >= filter.min &&
 									listing.card.mintNumber <= filter.max
 							);
-						} else if (filter.sigsOnly) {
-							accepted = data.data.market[0].filter(
-								(listing) =>
-									Number(listing.price) <= filter.price && listing.card.signatureImage
-							);
 						} else if (filter.upgradesOnly) {
 							accepted = data.data.market[0].filter(
 								(listing) =>
 									listing.card.rating > ownedRating &&
 									Number(listing.price) <= filter.price
-							);
-						}
-					}
-					if (item.type === "sticker") {
-						if (!filter.sigsOnly && !filter.upgradesOnly) {
-							accepted = data.data.market[0].filter(
-								(listing) =>
-									Number(listing.price) <= filter.price &&
-									listing.sticker.mintNumber >= filter.min &&
-									listing.sticker.mintNumber <= filter.max
-							);
-						} else if (filter.upgradesOnly) {
-							accepted = data.data.market[0].filter(
-								(listing) => listing.sticker.rating > ownedRating
 							);
 						}
 					}
@@ -322,7 +227,7 @@ const CardGallery = React.memo(
 										.map((card) => ({
 											id: card.id,
 											title: card.title,
-											type: card.cardType ? "card" : "sticker",
+											type: "card",
 										}))
 								)
 							}
@@ -426,7 +331,6 @@ const pickObj = (item) => {
 		rating: item.rating,
 		cardTemplateId: item.cardTemplateId,
 		id: item.id,
-		signatureImage: item.signatureImage,
 		status: item.status,
 		type: item.type,
 	};

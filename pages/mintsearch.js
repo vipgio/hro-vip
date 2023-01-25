@@ -43,17 +43,6 @@ const Searcher = () => {
 		}
 	};
 
-	const getStickers = async (collectionId) => {
-		const { data } = await axios.get(`/api/collections/stickers/${collectionId}`, {
-			headers: {
-				jwt: user.jwt,
-			},
-		});
-		if (data.success) {
-			setCards((prev) => [...prev, ...data.data]);
-		}
-	};
-
 	const getOwned = async (userId, collectionId) => {
 		const { data } = await axios.get(`/api/users/scan`, {
 			params: {
@@ -67,16 +56,14 @@ const Searcher = () => {
 		if (data.success) {
 			const ownedItems = uniqBy(
 				sortBy(
-					[...data.data.cards, ...data.data.stickers].map((item) => {
+					data.data.cards.map((item) => {
 						const obj = {
 							mintBatch: item.mintBatch,
 							mintNumber: item.mintNumber,
 							rating: item.rating,
-							templateId: item.cardTemplateId
-								? item.cardTemplateId
-								: item.stickerTemplateId,
+							templateId: item.cardTemplateId,
 							id: item.id,
-							type: item.cardTemplateId ? "card" : "sticker",
+							type: "card",
 						};
 						return obj;
 					}),
@@ -92,7 +79,6 @@ const Searcher = () => {
 		setCards([]);
 		setOwned([]);
 		await getCards(selectedCollection.collection.id);
-		await getStickers(selectedCollection.collection.id);
 		await getOwned(user.user.id, selectedCollection.collection.id);
 		setLoading(false);
 	};
@@ -142,22 +128,7 @@ const Searcher = () => {
 				</div>
 				<div>{user && <SetSelector setSelectedCollection={setSelectedCollection} />}</div>
 				<div className='mb-1 flex flex-col pl-2 text-gray-700 dark:text-gray-300'>
-					<div className='flex items-center'>
-						<label htmlFor='sigs' className='hover:cursor-pointer'>
-							Only search for signatures
-						</label>
-						<input
-							type='checkbox'
-							name='sigs'
-							id='sigs'
-							className='ml-1 mt-1 accent-main-500 hover:cursor-pointer'
-							checked={filter.sigsOnly}
-							onChange={(e) =>
-								setFilter((prev) => ({ ...prev, sigsOnly: e.target.checked }))
-							}
-						/>
-					</div>
-					<div className='flex items-center'>
+					<div className='mb-1 flex items-center'>
 						<label htmlFor='upgrade' className='mt-1 hover:cursor-pointer'>
 							Only search for point upgrades
 						</label>

@@ -49,7 +49,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 				const data = await getCardTemplates(
 					user.user.id,
 					template.id,
-					template.cardType ? "card" : "sticker",
+					"card",
 					controller
 				);
 				if (data.success) {
@@ -58,8 +58,7 @@ const SimpleModal = ({ selectedTemplates, showModal, setShowModal, user }) => {
 							return {
 								entityTemplateId: template.id,
 								id: item.id,
-								signatureImage: item.signatureImage,
-								type: item.type === "card" ? "card" : "sticker",
+								type: "card",
 								mintNumber: item.mintNumber,
 								mintBatch: item.mintBatch,
 								status: item.status,

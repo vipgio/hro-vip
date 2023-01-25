@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import isEqual from "lodash/isEqual";
 import { maxPrice, minPrice } from "@/config/config";
-import { FaSignature, FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
+import { FaRegTrashAlt, FaRegCheckCircle } from "react-icons/fa";
 import { useAxios } from "hooks/useAxios";
 import { toast } from "react-toastify";
 import LoadingSpin from "../LoadingSpin";
@@ -69,25 +69,10 @@ const ListedRow = React.memo(
 
 		return (
 			<>
-				{item.type === "card" ? (
-					<td
-						className={`py-1 px-2 sm:py-3 sm:px-6 ${
-							item.signatureImage ? "text-yellow-500" : ""
-						}`}
-						title={item.signatureImage && "Signed"}
-					>
-						<div className='flex items-center justify-center'>
-							{item.signatureImage && <FaSignature className='mr-2' />}
-							{item.mintBatch}
-							{item.mintNumber}
-						</div>
-					</td>
-				) : (
-					<td className='py-1 px-2 sm:py-3 sm:px-6'>
-						{item.mintBatch}
-						{item.mintNumber}
-					</td>
-				)}
+				<td className='py-1 px-2 sm:py-3 sm:px-6'>
+					{item.mintBatch}
+					{item.mintNumber}
+				</td>
 				<td className='min-w-[10rem] py-1 px-2 sm:py-3 sm:px-6'>{item.title}</td>
 				<td className='py-1 px-2 sm:py-3 sm:px-6'>{item.circulation}</td>
 				<td className='py-1 px-2 sm:py-3 sm:px-6'>${item.price}</td>

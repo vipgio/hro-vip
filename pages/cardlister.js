@@ -35,9 +35,7 @@ const Cardlister = () => {
 			);
 			if (templates) {
 				const countedTemplates = templates.map((card) => {
-					const cardCount = cards.find((o) => o.cardTemplateId === card.id);
-					const stickerCount = cards.find((o) => o.stickerTemplateId === card.id);
-					const count = cardCount || stickerCount;
+					const count = cards.find((o) => o.cardTemplateId === card.id);
 					return {
 						...pick(card, [
 							"id",
@@ -48,13 +46,9 @@ const Cardlister = () => {
 							"treatmentId",
 							"uuid",
 						]),
-						count: count
-							? count.cardIds
-								? count.cardIds.length
-								: count.stickerIds.length
-							: 0,
-						type: card.cardType ? "card" : "sticker",
-						listedAny: [...owned.cards, ...owned.stickers].some(
+						count: count ? count.cardIds.length : 0,
+						type: "card",
+						listedAny: owned.cards.some(
 							(own) => own.cardTemplateId === card.id && own.status === "market"
 						),
 					};
@@ -64,11 +58,6 @@ const Cardlister = () => {
 					templates.filter((item) => item.cardType),
 					1,
 					"card"
-				);
-				await getAllMarket(
-					templates.filter((item) => !item.cardType),
-					1,
-					"sticker"
 				);
 				setLoading(false);
 			}
@@ -84,17 +73,9 @@ const Cardlister = () => {
 				jwt: user.jwt,
 			},
 		});
-		const { data: stickers } = await axios.get(
-			`/api/collections/stickers/${collectionId}`,
-			{
-				headers: {
-					jwt: user.jwt,
-				},
-			}
-		);
 		const result = {
-			success: cards.success && stickers.success,
-			data: [...cards.data, ...stickers.data],
+			success: cards.success,
+			data: cards.data,
 		};
 		return result;
 	};

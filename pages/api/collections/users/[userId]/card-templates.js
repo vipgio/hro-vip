@@ -20,22 +20,8 @@ export default async function handler(req, res) {
 				}
 			);
 		};
-		const getStickerTemplates = async (jwt, userId, templateId) => {
-			return http(
-				`${API}/collections/users/${userId}/sticker-templates/${templateId}/stickers?categoryId=1`,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						"x-user-jwt": jwt,
-					},
-				}
-			);
-		};
 		const { data: cards } = await getCardTemplates(jwt, userId, templateId);
-		const { data: stickers } = await getStickerTemplates(jwt, userId, templateId);
-		const result = type === "card" ? cards : stickers;
-		res.status(200).json(result);
+		res.status(200).json(cards);
 	} catch (err) {
 		console.log(err);
 		res.status(err.response.status).json(err.response.data);

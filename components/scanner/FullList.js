@@ -106,28 +106,10 @@ const FullList = ({ results, owner, isSelfScan, ownedItems, filterMethod }) => {
 						{sortBy(
 							results,
 							sortMethod === "mint"
-								? [
-										"mintBatch",
-										"mintNumber",
-										(o) => -o.signatureImage,
-										(o) => -o.delta,
-										"inCirculation",
-								  ]
+								? ["mintBatch", "mintNumber", (o) => -o.delta, "inCirculation"]
 								: sortMethod === "points"
-								? [
-										(o) => -o.delta,
-										"mintBatch",
-										"mintNumber",
-										(o) => -o.signatureImage,
-										"inCirculation",
-								  ]
-								: [
-										"inCirculation",
-										"mintBatch",
-										"mintNumber",
-										(o) => -o.signatureImage,
-										(o) => -o.delta,
-								  ]
+								? [(o) => -o.delta, "mintBatch", "mintNumber", "inCirculation"]
+								: ["inCirculation", "mintBatch", "mintNumber", (o) => -o.delta]
 						)
 							.slice(0, show + 100)
 							.map((item) => (

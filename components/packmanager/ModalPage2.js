@@ -96,9 +96,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 							...card,
 							title: templates.data.find((o) => o.id === card.cardTemplateId).title,
 						}));
-						setOpenedCards((prev) => [...prev, ...cards, ...data.data.stickers]);
-					} else {
-						setOpenedCards((prev) => [...prev, ...data.data.stickers]);
+						setOpenedCards((prev) => [...prev, ...cards]);
 					}
 					updateLocal();
 				}
@@ -207,9 +205,7 @@ const ModalPage2 = ({ selected, setSelected, packTemplate, action, setAction }) 
 											{card.mintBatch}
 											{card.mintNumber}
 										</span>
-										<span className='ml-5'>
-											{card.title ? card.title : card.stickerTemplate.title}
-										</span>
+										<span className='ml-5'>{card.title}</span>
 									</div>
 								))}
 							</div>

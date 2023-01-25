@@ -2,7 +2,6 @@ import { UserContext } from "context/UserContext";
 import sortBy from "lodash/sortBy";
 import uniqBy from "lodash/uniqBy";
 import { useContext, useState } from "react";
-import { FaSignature } from "react-icons/fa";
 import BigModal from "../BigModal";
 import ExportToCSV from "../ExportToCSV";
 import Tooltip from "../Tooltip";
@@ -20,17 +19,12 @@ const MarketResults = ({
 	const { user } = useContext(UserContext);
 	const [hideBadDeals, setHideBadDeals] = useState(false);
 
-	const suffix = filter.sigsOnly
-		? "Signatures"
-		: filter.upgradesOnly
+	const suffix = filter.upgradesOnly
 		? "Point Upgrades"
 		: `[${filter.batch}${filter.min}-${filter.batch}${filter.max}]`;
 
 	const uniqResults = uniqBy(
-		sortBy(results, [
-			(o) => (o.card ? o.card.mintNumber : o.sticker.mintNumber),
-			(o) => (o.card ? o.card.cardTemplateId : o.stickerTemplateId),
-		]),
+		sortBy(results, [(o) => o.card.mintNumber, (o) => o.card.cardTemplateId]),
 		(o) => o.marketId
 	);
 
@@ -111,9 +105,6 @@ const MarketResults = ({
 								text='Hide items that have a better mint and cheaper alternative in the results'
 							/>
 						</div>
-						<span className='inline-flex items-center text-yellow-500'>
-							<FaSignature className='mr-2' /> Signed Item
-						</span>
 					</div>
 					<div className='ml-auto'>
 						<ExportToCSV

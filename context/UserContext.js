@@ -68,18 +68,6 @@ const UserContextProvider = (props) => {
 			}
 		);
 	};
-	const getStickerCirc = async (collectionId) => {
-		return http(
-			`https://api.hro.gg/api/v1/collections/${collectionId}/sticker-templates?categoryId=1`,
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					"x-user-jwt": user.jwt,
-				},
-			}
-		);
-	};
 
 	const getPacks = async (page) => {
 		return http(`https://api.hro.gg/api/v1/packs?page=${page}&categoryId=1`, {
@@ -109,7 +97,6 @@ const UserContextProvider = (props) => {
 				loading,
 				setLoading,
 				getCardCirc,
-				getStickerCirc,
 				getPacks,
 				userPacks,
 				initialLoading,

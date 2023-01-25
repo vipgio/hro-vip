@@ -22,7 +22,7 @@ const CraftingModal = React.memo(
 				id: requirement.id,
 				count: requirement.count,
 				name: requirement.name,
-				cost: plan.silvercoinCost,
+				cost: plan.hroCost,
 				items: [],
 			}))
 		);
@@ -85,7 +85,7 @@ const CraftingModal = React.memo(
 			for (let i = 0; i < craftCount; i++) {
 				try {
 					const payload = {
-						silvercoins: plan.silvercoinCost,
+						hroCost: plan.hroCost,
 						requirements: dataToShow.map((req) => ({
 							requirementId: req.id,
 							entityIds: req.items

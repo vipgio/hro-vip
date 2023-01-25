@@ -76,20 +76,19 @@ const SendSection = ({ transferMode, selectedUser, loading, setLoading }) => {
 				transferMode.id === "cardid"
 					? result
 							.map((res) => {
-								const type = res.cardTemplateId ? "card" : "sticker";
-								const ids = type === "card" ? res.cardIds : res.stickerIds;
+								const ids = res.cardIds;
 								const objects = ids.map((item) => ({
 									id: item,
-									type: type,
+									type: "card",
 								}));
 								return objects;
 							})
 							.flat()
-					: [...result.cards, ...result.stickers]
+					: result.cards
 							.filter((item) => item.status === "available")
 							.map((item) => ({
 								id: item.id,
-								type: item.stickerTemplateId ? "sticker" : "card",
+								type: "card",
 							}));
 			setItems((prev) => [...prev, ...items]);
 		}

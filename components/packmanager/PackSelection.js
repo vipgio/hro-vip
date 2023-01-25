@@ -46,7 +46,7 @@ const PackSelection = ({
 											USD
 										</span>
 										<a
-											href={`https://hro.gg/DC/marketplace/pack/${packTemplate.id}`}
+											href={`https://app.hro.gg/DC/marketplace/pack/${packTemplate.id}`}
 											className='ml-1 flex items-center'
 											target='_blank'
 											rel='noreferrer'

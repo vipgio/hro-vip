@@ -131,6 +131,7 @@ const Login = () => {
 							onChange={(e) => setCode(e.target.value)}
 							disabled={loading}
 							className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+							autoFocus
 						/>
 					)}
 					<button type='submit' disabled={loading} className='submit-button'>

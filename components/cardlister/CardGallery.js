@@ -14,7 +14,7 @@ const CardGallery = ({ templates, user }) => {
 	const [showSimpleModal, setShowSimpleModal] = useState(false);
 	const [showFiltersModal, setShowFiltersModal] = useState(false);
 	const [sortMethod, setSortMethod] = useState("listed");
-	const defaultFilters = { minOwned: 1, minFloor: 0.1, maxFloor: 20000 };
+	const defaultFilters = { minOwned: 1, minFloor: 1, maxFloor: 200000 };
 	const [filters, setFilters] = useState(defaultFilters);
 
 	useEffect(() => {

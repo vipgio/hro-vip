@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 	const { username } = req.query;
 	try {
 		let { data, error } = await supabase
-			.from("whitelist")
+			.from("hroDB")
 			.select("*")
 			.eq("username", username);
 		error && console.log(error);

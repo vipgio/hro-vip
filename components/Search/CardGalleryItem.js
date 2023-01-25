@@ -12,7 +12,7 @@ const CardGalleryItem = ({ item, selectedCards, setSelectedCards }) => {
 					{
 						id: item.id,
 						title: item.title,
-						type: item.cardType ? "card" : "sticker",
+						type: "card",
 					},
 			  ]);
 	};

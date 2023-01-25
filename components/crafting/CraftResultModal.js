@@ -63,9 +63,7 @@ const CraftResultModal = React.memo(
 															{card.mintBatch}
 															{card.mintNumber}
 														</span>
-														<span className='ml-5'>
-															{card.title ? card.title : card.stickerTemplate.title}
-														</span>
+														<span className='ml-5'>{card.title}</span>
 													</div>
 												))}
 										</div>

@@ -29,7 +29,7 @@ const AdvancedModal = ({
 				const data = await getCardTemplates(
 					user.user.id,
 					template.id,
-					template.cardType ? "card" : "sticker",
+					"card",
 					controller
 				);
 				if (data.success) {
@@ -38,8 +38,7 @@ const AdvancedModal = ({
 							return {
 								cardTemplateId: item.cardTemplateId,
 								id: item.id,
-								signatureImage: item.signatureImage,
-								type: item.type === "card" ? "card" : "sticker",
+								type: "card",
 								mintNumber: item.mintNumber,
 								mintBatch: item.mintBatch,
 								status: item.status,

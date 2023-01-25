@@ -1,7 +1,7 @@
 import { useContext, forwardRef, useState } from "react";
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
-import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
+import { AiOutlineScan, AiOutlineHome, AiOutlineFire } from "react-icons/ai";
 import {
 	FaHistory,
 	FaSearch,
@@ -13,13 +13,12 @@ import {
 } from "react-icons/fa";
 import { TbArrowMerge } from "react-icons/tb";
 import { BsArrowLeftRight } from "react-icons/bs";
-import { MdOutlineSwapHorizontalCircle } from "react-icons/md";
 import { UserContext } from "context/UserContext";
 import { ThemeContext } from "context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
 import TradeModal from "./trade/TradeModal";
 
-const NewNavbar = () => {
+const Navbar = () => {
 	const { user, tradeList } = useContext(UserContext);
 	const { theme, setTheme } = useContext(ThemeContext);
 	const [showTradeModal, setShowTradeModal] = useState(false);
@@ -165,7 +164,7 @@ const NewNavbar = () => {
 	);
 };
 
-export default NewNavbar;
+export default Navbar;
 
 const MyLink = forwardRef((props, ref) => {
 	const { href, children, ...rest } = props;
@@ -203,7 +202,7 @@ const pages = [
 	},
 	{
 		link: "packs",
-		title: "Pack Search",
+		title: "Packs",
 		icon: (
 			<svg viewBox='0 0 24 24' width='1em' height='1em'>
 				<path d='M21.7,3.6'></path>
@@ -241,7 +240,7 @@ const pages = [
 		),
 		paid: true,
 	},
-	{ link: "mintsearch", title: "Mint Search", icon: <FaSearch />, paid: true },
+	// { link: "mintsearch", title: "Mint Search", icon: <FaSearch />, paid: true },
 	{ link: "history", title: "History", icon: <FaHistory />, paid: true },
 	{
 		link: "cardlister",
@@ -253,10 +252,16 @@ const pages = [
 		),
 		paid: true,
 	},
-	{
-		link: "transfer",
-		title: "Account Transfer",
-		icon: <FaPeopleArrows size={16} />,
-		paid: true,
-	},
+	// {
+	// 	link: "transfer",
+	// 	title: "Account Transfer",
+	// 	icon: <FaPeopleArrows size={16} />,
+	// 	paid: true,
+	// },
+	// {
+	// 	link: "burner",
+	// 	title: "Mass Burner",
+	// 	icon: <AiOutlineFire size={16} />,
+	// 	paid: true,
+	// },
 ];

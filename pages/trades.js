@@ -44,16 +44,12 @@ const Trades = () => {
 		const templates = await getCollection(selectedCollection.collection.id);
 
 		const sendItems = sortBy(
-			[...own.cards, ...own.stickers].map((item) =>
-				pickObj(item, selectedCollection, templates)
-			),
+			own.cards.map((item) => pickObj(item, selectedCollection, templates)),
 			["mintBatch", "mintNumber"]
 		);
 
 		const receiveItems = sortBy(
-			[...data.cards, ...data.stickers].map((item) =>
-				pickObj(item, selectedCollection, templates)
-			),
+			data.cards.map((item) => pickObj(item, selectedCollection, templates)),
 			["mintBatch", "mintNumber"]
 		);
 
@@ -178,22 +174,17 @@ const Trades = () => {
 export default Trades;
 
 const pickObj = (item, selectedCollection, templates) => {
-	const templateId = item.cardTemplateId ? item.cardTemplateId : item.stickerTemplateId;
-	const foundTemplate = templates.find((o) => o.id === templateId);
+	const foundTemplate = templates.find((o) => o.id === item.cardTemplateId);
 	return {
-		templateId: templateId,
+		templateId: item.cardTemplateId,
 		id: item.id,
 		mintBatch: item.mintBatch,
 		mintNumber: item.mintNumber,
 		type: item.type,
 		status: item.status,
 		rating: item.rating,
-		signatureImage: item.signatureImage,
 		collectionId: selectedCollection.collection.id,
-		title: item.type === "card" ? foundTemplate.title : item.stickerTemplate.title,
-		inCirculation:
-			item.type === "card"
-				? foundTemplate.inCirculation
-				: item.stickerTemplate.inCirculation,
+		title: foundTemplate.title,
+		inCirculation: foundTemplate.inCirculation,
 	};
 };

@@ -51,7 +51,6 @@ const ListedModal = ({ showModal, setShowModal }) => {
 						mintBatch: item.card.mintBatch,
 						type: item.type,
 						created: item.created,
-						signatureImage: item.card.signatureImage,
 						circulation: templates.filter((res) => res.id === item.card.cardTemplateId)[0]
 							.inCirculation,
 						title: templates.filter((res) => res.id === item.card.cardTemplateId)[0]
