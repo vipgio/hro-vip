@@ -57,19 +57,12 @@ const FullListRow = React.memo(({ item, owner, isSelfScan, ownedItems }) => {
 			)}
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<span className='relative flex h-8 items-center justify-center'>
-					{user.info.allowed.includes("history") ? (
-						showHistory ? (
-							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} />
-						) : (
-							<button onClick={openModal}>
-								<FaHistory />
-							</button>
-						)
+					{showHistory ? (
+						<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} />
 					) : (
-						<FaLock
-							className='cursor-not-allowed'
-							title='You need the "history" access for this feature'
-						/>
+						<button onClick={openModal}>
+							<FaHistory />
+						</button>
 					)}
 				</span>
 			</td>

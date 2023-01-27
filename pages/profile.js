@@ -60,7 +60,7 @@ const Profile = () => {
 											key={option}
 										>
 											<a className='my-outline rounded hover:text-main-500'>
-												{features[option].name}
+												{features[option]?.name}
 											</a>
 										</Link>,
 									])
@@ -160,4 +160,5 @@ const features = {
 	trades: { name: "Trades", link: "" },
 	feed: { name: "Custom Feed", link: "" },
 	transfer: { name: "Account Transfer", link: "/transfer" },
+	transfer: { name: "Mass Burner", link: "/burner" },
 };

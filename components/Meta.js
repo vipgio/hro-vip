@@ -2,7 +2,7 @@ import Head from "next/head";
 
 const Meta = ({
 	title,
-	keywords = "hro, hroGG, hrogg, hro Toolkit, hro, hroGG, hrogg, hro Toolkit",
+	keywords = "hro, hroGG, hrogg, hro Toolkit",
 	description = "An epic toolkit for hro.gg",
 	robots,
 }) => {

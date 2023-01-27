@@ -10,31 +10,39 @@ const Features = ({ features }) => {
 	return (
 		<>
 			<Meta title='Features | Hro VIP' />
-			<div className='mt-5 flex justify-center'>
+			<Details features={features} />
+			{/* <div className='mt-5 flex justify-center'>
 				<Toggle action={show} setAction={setShow} />
-			</div>
-			{show === "features" ? (
+			</div> */}
+			{/* {show === "features" ? (
 				<Details features={features} />
 			) : (
 				<Pricing features={features} />
-			)}
+			)} */}
 		</>
 	);
 };
 
-Features.getInitialProps = async () => {
+export async function getStaticProps() {
 	const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 	const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
 	const supabase = createClient(supabaseUrl, supabaseKey);
 	try {
-		const { data, error } = await supabase.from("hroPrices").select("*");
+		const { data, error } = await supabase.from("hroFeatures").select("*");
 		error && console.log(error);
-		if (data) {
-			return { features: data.sort((a, b) => a.id - b.id) };
+		if (!data) {
+			return {
+				notFound: true,
+			};
 		}
+		return {
+			props: {
+				features: data.sort((a, b) => a.id - b.id),
+			},
+		};
 	} catch (err) {
 		console.log(err);
 	}
-};
+}
 
 export default Features;

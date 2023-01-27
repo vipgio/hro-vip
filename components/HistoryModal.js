@@ -107,19 +107,6 @@ const HistoryModal = React.memo(
 																			</p>
 																		</div>
 																	)}
-																	{event.type === "spinner" && (
-																		<div>
-																			<p>
-																				<span className='font-medium text-green-600 dark:text-green-400'>
-																					{event.receiver.username}{" "}
-																				</span>
-																				received the item from the spinner.{" "}
-																				<span className='block text-gray-500'>
-																					{event.created.replace("T", " ").split(".")[0]}
-																				</span>
-																			</p>
-																		</div>
-																	)}
 																	{event.type === "craft" && (
 																		<div>
 																			<p>
@@ -187,7 +174,7 @@ const HistoryModal = React.memo(
 																					{event.sender.username}{" "}
 																				</span>
 																				for <span>{event.value} </span>
-																				<span>USD</span>
+																				<span>USD.</span>
 																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>
@@ -213,7 +200,7 @@ const HistoryModal = React.memo(
 																				<span className='font-medium text-green-600 dark:text-green-400'>
 																					{event.receiver?.username}{" "}
 																				</span>
-																				Item was transferred to hro.{" "}
+																				Item was transferred to Hro.{" "}
 																				<span className='block text-gray-500'>
 																					{event.created.replace("T", " ").split(".")[0]}
 																				</span>

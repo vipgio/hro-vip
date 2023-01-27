@@ -16,11 +16,11 @@ const Details = ({ features }) => {
 						key={feature.id}
 					>
 						<div className='relative flex justify-center border-b border-gray-700 text-center text-gray-700 dark:border-gray-300 dark:text-gray-300'>
-							{feature.info.locked && (
+							{/* {feature.info.locked && (
 								<div className='absolute left-1 top-[6px] flex items-center justify-center'>
 									<FaLock title='Paid only' />
 								</div>
-							)}
+							)} */}
 							<h2 className='text-center text-lg font-semibold text-main-400 hover:underline'>
 								<Link href={feature.info.link}>
 									<a title={feature.info.name}>{feature.info.name}</a>
@@ -35,7 +35,6 @@ const Details = ({ features }) => {
 								height={500}
 								className='object-cover'
 								alt={feature.info.name}
-								optimize={true}
 							/>
 						</div>
 						<p className='p-1 text-gray-700 dark:text-gray-300'>
