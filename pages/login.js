@@ -126,6 +126,7 @@ const Login = () => {
 						<input
 							type='text'
 							name='2fa'
+							autoComplete='off'
 							placeholder='Two Factor Authentication'
 							value={code}
 							onChange={(e) => setCode(e.target.value)}

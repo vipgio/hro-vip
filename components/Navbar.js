@@ -231,7 +231,7 @@ const pages = [
 		),
 		// paid: true,
 	},
-	// { link: "mintsearch", title: "Mint Search", icon: <FaSearch />, paid: true },
+	{ link: "mintsearch", title: "Mint Search", icon: <FaSearch /> },
 	{
 		link: "history",
 		title: "History",

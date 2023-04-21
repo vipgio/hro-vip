@@ -50,17 +50,6 @@ const CardHistory = React.memo(
 												</span>
 											</div>
 										)}
-										{event.type === "spinner" && (
-											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
-												</span>
-												received the item from the spinner.{" "}
-												<span className='block text-gray-500'>
-													{event.created.replace("T", " ").split(".")[0]}
-												</span>
-											</div>
-										)}
 										{event.type === "craft" && (
 											<div>
 												<span className='font-medium text-green-600 dark:text-green-400'>
@@ -128,7 +117,9 @@ const CardHistory = React.memo(
 										{event.type === "imx-locked" && (
 											<div>
 												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
+													{event.receiver
+														? event.receiver.username
+														: event.sender.username}{" "}
 												</span>
 												transferred the item to Immutable.{" "}
 												<span className='block text-gray-500'>
@@ -139,9 +130,11 @@ const CardHistory = React.memo(
 										{event.type === "imx-unlocked" && (
 											<div>
 												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver?.username}{" "}
+													{event.receiver
+														? event.receiver.username
+														: event.sender.username}{" "}
 												</span>
-												Item was transferred to Hro.{" "}
+												transferred the item to Hro.{" "}
 												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
@@ -149,22 +142,62 @@ const CardHistory = React.memo(
 										)}
 										{event.type === "imx-market" && (
 											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
-												</span>
-												purchased the item from Immutable.{" "}
+												{event.receiver ? (
+													<>
+														<span className='font-medium text-green-600 dark:text-green-400'>
+															{event.receiver.username}{" "}
+														</span>
+														purchased the item from Immutable
+														{event.value > 0 ? (
+															<>
+																{" "}
+																for
+																<span className='ml-1 font-semibold text-red-500'>
+																	{event.value}
+																</span>
+																ETH.{" "}
+															</>
+														) : (
+															"."
+														)}
+													</>
+												) : (
+													<>
+														<span className='font-medium text-green-600 dark:text-green-400'>
+															{event.sender.username}{" "}
+														</span>
+														sold the item on Immutable
+														{event.value > 0 ? (
+															<>
+																{" "}
+																for
+																<span className='ml-1 font-semibold text-red-500'>
+																	{event.value}
+																</span>
+																ETH.{" "}
+															</>
+														) : (
+															"."
+														)}
+													</>
+												)}
+
 												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>
 											</div>
 										)}
-										{event.type === "level-upgrade" && (
+										{event.type === "eth-owner-update" && (
 											<div>
-												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
+												Ethereum item ownership updated.{" "}
+												<span className='block text-gray-500'>
+													{event.created.replace("T", " ").split(".")[0]}
 												</span>
-												upgraded the card to level{" "}
-												<span className='font-medium text-red-400'>{event.value} </span>
+											</div>
+										)}
+										{event.type === "eth-locked" && (
+											<div>
+												Ethereum token trading disabled.{" "}
 												<span className='block text-gray-500'>
 													{event.created.replace("T", " ").split(".")[0]}
 												</span>

@@ -183,57 +183,91 @@ const HistoryModal = React.memo(
 																	)}
 																	{event.type === "imx-locked" && (
 																		<div>
-																			<p>
-																				<span className='font-medium text-green-600 dark:text-green-400'>
-																					{event.receiver.username}{" "}
-																				</span>
-																				transferred the item to Immutable.{" "}
-																				<span className='block text-gray-500'>
-																					{event.created.replace("T", " ").split(".")[0]}
-																				</span>
-																			</p>
+																			<span className='font-medium text-green-600 dark:text-green-400'>
+																				{event.receiver
+																					? event.receiver.username
+																					: event.sender.username}{" "}
+																			</span>
+																			transferred the item to Immutable.{" "}
+																			<span className='block text-gray-500'>
+																				{event.created.replace("T", " ").split(".")[0]}
+																			</span>
 																		</div>
 																	)}
 																	{event.type === "imx-unlocked" && (
 																		<div>
-																			<p>
-																				<span className='font-medium text-green-600 dark:text-green-400'>
-																					{event.receiver?.username}{" "}
-																				</span>
-																				Item was transferred to Hro.{" "}
-																				<span className='block text-gray-500'>
-																					{event.created.replace("T", " ").split(".")[0]}
-																				</span>
-																			</p>
+																			<span className='font-medium text-green-600 dark:text-green-400'>
+																				{event.receiver
+																					? event.receiver.username
+																					: event.sender.username}{" "}
+																			</span>
+																			transferred the item to Hro.{" "}
+																			<span className='block text-gray-500'>
+																				{event.created.replace("T", " ").split(".")[0]}
+																			</span>
 																		</div>
 																	)}
 																	{event.type === "imx-market" && (
 																		<div>
-																			<p>
-																				<span className='font-medium text-green-600 dark:text-green-400'>
-																					{event.receiver.username}{" "}
-																				</span>
-																				purchased the item from Immutable.{" "}
-																				<span className='block text-gray-500'>
-																					{event.created.replace("T", " ").split(".")[0]}
-																				</span>
-																			</p>
+																			{event.receiver ? (
+																				<>
+																					<span className='font-medium text-green-600 dark:text-green-400'>
+																						{event.receiver.username}{" "}
+																					</span>
+																					purchased the item from Immutable
+																					{event.value > 0 ? (
+																						<>
+																							{" "}
+																							for
+																							<span className='ml-1 font-semibold text-red-500'>
+																								{event.value}
+																							</span>
+																							ETH.{" "}
+																						</>
+																					) : (
+																						"."
+																					)}
+																				</>
+																			) : (
+																				<>
+																					<span className='font-medium text-green-600 dark:text-green-400'>
+																						{event.sender.username}{" "}
+																					</span>
+																					sold the item on Immutable
+																					{event.value > 0 ? (
+																						<>
+																							{" "}
+																							for
+																							<span className='ml-1 font-semibold text-red-500'>
+																								{event.value}
+																							</span>
+																							ETH.{" "}
+																						</>
+																					) : (
+																						"."
+																					)}
+																				</>
+																			)}
+
+																			<span className='block text-gray-500'>
+																				{event.created.replace("T", " ").split(".")[0]}
+																			</span>
 																		</div>
 																	)}
-																	{event.type === "level-upgrade" && (
+																	{event.type === "eth-owner-update" && (
 																		<div>
-																			<p>
-																				<span className='font-medium text-green-600 dark:text-green-400'>
-																					{event.receiver.username}{" "}
-																				</span>
-																				upgraded the card to level{" "}
-																				<span className='font-medium text-red-400'>
-																					{event.value}{" "}
-																				</span>
-																				<span className='block text-gray-500'>
-																					{event.created.replace("T", " ").split(".")[0]}
-																				</span>
-																			</p>
+																			Ethereum item ownership updated.{" "}
+																			<span className='block text-gray-500'>
+																				{event.created.replace("T", " ").split(".")[0]}
+																			</span>
+																		</div>
+																	)}
+																	{event.type === "eth-locked" && (
+																		<div>
+																			Ethereum token trading disabled.{" "}
+																			<span className='block text-gray-500'>
+																				{event.created.replace("T", " ").split(".")[0]}
+																			</span>
 																		</div>
 																	)}
 																</Fragment>
