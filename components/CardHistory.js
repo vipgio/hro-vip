@@ -101,7 +101,7 @@ const CardHistory = React.memo(
 										{event.type === "market" && (
 											<div>
 												<span className='font-medium text-green-600 dark:text-green-400'>
-													{event.receiver.username}{" "}
+													{event.receiver ? event.receiver.username : "null"}{" "}
 												</span>
 												purchased the item from{" "}
 												<span className='font-medium text-red-400'>
@@ -164,7 +164,7 @@ const CardHistory = React.memo(
 												) : (
 													<>
 														<span className='font-medium text-green-600 dark:text-green-400'>
-															{event.sender.username}{" "}
+															{event.sender ? event.sender.username : "null"}{" "}
 														</span>
 														sold the item on Immutable
 														{event.value > 0 ? (
