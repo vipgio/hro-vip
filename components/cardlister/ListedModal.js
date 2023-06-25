@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import uniq from "lodash/uniq";
+import { toast } from "react-toastify";
 import { useAxios } from "hooks/useAxios";
 import { UserContext } from "context/UserContext";
 import ListedTable from "./ListedTable";
@@ -7,7 +8,7 @@ import BigModal from "../BigModal";
 
 const ListedModal = ({ showModal, setShowModal }) => {
 	const { user } = useContext(UserContext);
-	const { fetchData } = useAxios();
+	const { fetchData, deleteData } = useAxios();
 	const finished = useRef(false);
 	const [listed, setListed] = useState([]);
 	const [sortMethod, setSortMethod] = useState("mint");
@@ -83,13 +84,55 @@ const ListedModal = ({ showModal, setShowModal }) => {
 		if (error) console.log(error);
 	};
 
+	const removeAll = async () => {
+		setLoading(true);
+		const allIds = listed.map((listed) => listed.marketId);
+		for await (const id of allIds) {
+			let counter = 0;
+			try {
+				const { result, error } = await deleteData(`/api/market/listed/${id}`);
+				if (result && result.success) {
+					counter++;
+					setListed((prev) => prev.filter((prv) => prv.marketId !== id));
+					toast.isActive("success")
+						? toast.update("success", {
+								render: `Removed ${counter}x ${
+									counter === 1 ? "item" : "items"
+								} from the market!`,
+						  })
+						: toast.success(
+								`Removed ${counter}x ${
+									counter === 1 ? "item" : "items"
+								} from the market!`,
+								{
+									toastId: "success",
+								}
+						  );
+				}
+				if (error) {
+					console.log(error);
+					toast.error(`${error.response.data.error}`, {
+						toastId: item.marketId,
+					});
+				}
+			} catch (err) {
+				console.log(err);
+				toast.error(`Failed to delist item with id: ${id}`, { toastId: id });
+				toast.error(err.response.data.error, {
+					toastId: err.response.data.errorCode,
+				});
+			}
+		}
+		setLoading(false);
+	};
+
 	useEffect(() => {
 		if (listed.length === 0) {
 			setLoading(true);
 			getAllListed(1);
 		}
 		return () => {
-			setShowModal(false);
+			// setShowModal(false);
 			finished.current = true;
 		};
 	}, []);
@@ -118,41 +161,62 @@ const ListedModal = ({ showModal, setShowModal }) => {
 			hasToast={true}
 			extraStyle='h-fit my-auto'
 		>
-			<div className='flex h-16 min-h-[4rem] border border-gray-700 p-1 dark:border-gray-500'>
-				<div className='flex items-center'>
-					<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
-						Sort by:{" "}
-					</label>
-					<select
-						name='sort'
-						id='sort'
-						className='mx-2 my-1 rounded-md border border-gray-800 p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-main-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
-						onChange={(e) => setSortMethod(e.target.value)}
-					>
-						{/* <option disabled selected value>
+			{listed.length > 0 ? (
+				<>
+					<div className='flex h-16 min-h-[4rem] border border-gray-700 p-1 dark:border-gray-500'>
+						<div className='flex items-center'>
+							<label htmlFor='sort' className='ml-1 text-gray-700 dark:text-gray-300'>
+								Sort by:{" "}
+							</label>
+							<select
+								name='sort'
+								id='sort'
+								className='mx-2 my-1 rounded-md border border-gray-800 p-1 text-gray-900 transition-opacity focus:outline-none focus:ring-2 focus:ring-main-500 disabled:cursor-not-allowed disabled:opacity-50 sm:mb-0'
+								onChange={(e) => setSortMethod(e.target.value)}
+							>
+								{/* <option disabled selected value>
 							Select an option
 						</option> */}
-						<option value='mint'>Mint</option>
-						<option value='price'>Price</option>
-						<option value='floor'>Floor</option>
-						<option value='circulation'>Circulation</option>
-					</select>
+								<option value='mint'>Mint</option>
+								<option value='price'>Price</option>
+								<option value='floor'>Floor</option>
+								<option value='circulation'>Circulation</option>
+							</select>
+						</div>
+						<button
+							className='simple-button my-1.5 ml-auto mr-1.5'
+							onClick={() => setInsertFloor((prev) => prev + 1)}
+						>
+							Insert Floor
+						</button>
+					</div>
+					<div className='overflow-auto'>
+						<ListedTable
+							setListed={setListed}
+							listed={listed}
+							sortMethod={sortMethod}
+							insertFloor={insertFloor}
+						/>
+					</div>
+				</>
+			) : loading === true ? (
+				<div className='inline-flex h-12 min-h-[2rem] items-center justify-center rounded-md border border-gray-700 p-1 font-semibold text-gray-700 dark:border-gray-500 dark:text-gray-200'>
+					<span>Fetching data...</span>
 				</div>
-				<button
-					className='simple-button my-1.5 ml-auto mr-1.5'
-					onClick={() => setInsertFloor((prev) => prev + 1)}
-				>
-					Insert Floor
-				</button>
-			</div>
-			<div className='overflow-auto'>
-				<ListedTable
-					setListed={setListed}
-					listed={listed}
-					sortMethod={sortMethod}
-					insertFloor={insertFloor}
-				/>
-			</div>
+			) : (
+				<div className='inline-flex h-12 min-h-[2rem] items-center justify-center rounded-md border border-gray-700 p-1 font-semibold text-gray-700 dark:border-gray-500 dark:text-gray-200'>
+					<span>No items are listed on market.</span>
+				</div>
+			)}
+			{listed.length > 0 && (
+				<div className='flex p-3'>
+					<div className='ml-auto'>
+						<button className='simple-button' onClick={removeAll}>
+							Remove All
+						</button>
+					</div>
+				</div>
+			)}
 		</BigModal>
 	);
 };
