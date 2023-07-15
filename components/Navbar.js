@@ -193,7 +193,7 @@ const pages = [
 	},
 	{
 		link: "packs",
-		title: "Packs",
+		title: "Pack Search",
 		icon: (
 			<svg viewBox='0 0 24 24' width='1em' height='1em'>
 				<path d='M21.7,3.6'></path>

@@ -2,7 +2,7 @@ const CircList = ({ data }) => {
 	const opened = data.reduce((cur, acc) => cur + acc.inCirculation, 0);
 	const burned = data.reduce((cur, acc) => cur + acc.burned, 0);
 	return (
-		<div className='flex justify-center px-2'>
+		<div className='mb-8 flex justify-center px-2'>
 			<div className='grid divide-y divide-green-400 rounded border border-green-400'>
 				<div className='p-1 text-center text-lg font-semibold text-gray-700 dark:text-gray-200'>
 					<div>Total Circulation: {opened}</div>
