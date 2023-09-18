@@ -9,61 +9,31 @@ import LoadingSpin from "@/components/LoadingSpin";
 
 const Login = () => {
 	const { setUser, loading, setLoading } = useContext(UserContext);
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [codeEnabled, setCodeEnabled] = useState(false);
-	const [code, setCode] = useState("");
+	const [jwt, setJWT] = useState("");
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const { data } = await axios.post("/api/login", { email, password, code });
-			if (data.success) {
-				const whitelist = await axios.get(
-					`/api/whitelist?username=${data.data.user.username}`
-				);
-
-				if (whitelist.data.info?.banned) {
-					toast.error("I don't like you, fuck off", {
-						position: "top-center",
-						toastId: "banned",
-						progress: 1,
-						closeOnClick: false,
-					});
-				} else {
-					const now = new Date().getTime();
-					const ends = Date.parse(whitelist.data.ends);
-					whitelist.data.info
-						? setUser((_) => {
-								const expired = now > ends;
-								return {
-									...data.data,
-									info: {
-										transfers: whitelist.data.info.transfers || 0,
-										allowed: expired ? [] : whitelist.data.info.allowed || [],
-										...(!expired && {
-											ends: Math.floor((ends - now) / (1000 * 3600 * 24)),
-										}), //if not expired, add "ends"
-									},
-								};
-						  })
-						: setUser({ ...data.data, info: { allowed: [] } });
-				}
-				setLoading(false);
-			}
+			const { data } = await axios.get("/api/info", {
+				headers: {
+					jwt: jwt,
+				},
+			});
+			console.log(data);
+			setUser({
+				user: {
+					...data.data,
+				},
+				jwt: jwt,
+				info: { allowed: [] },
+			});
+			setLoading(false);
 		} catch (err) {
 			console.log(err);
-			if (!codeEnabled && err.response.data.errorCode === "2fa_invalid") {
-				setCodeEnabled(true);
-				toast.warning("Enter your 2FA code", {
-					toastId: err.response.data.errorCode,
-				});
-			} else {
-				toast.error(err.response.data.error, {
-					toastId: err.response.data.errorCode,
-				});
-			}
+			toast.error(err.response.data.error, {
+				toastId: err.response.data.errorCode,
+			});
 			setLoading(false);
 		}
 	};
@@ -99,42 +69,17 @@ const Login = () => {
 					onSubmit={onSubmit}
 				>
 					<input
-						type='email'
-						name='email'
-						placeholder='Email address'
-						value={email}
-						required={true}
-						onChange={(e) => setEmail(e.target.value)}
-						autoComplete='email'
+						type='text'
+						name='jwt'
+						autoComplete='off'
+						placeholder='JWT'
+						value={jwt}
+						onChange={(e) => setJWT(e.target.value)}
 						disabled={loading}
 						className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
+						autoFocus
 					/>
 
-					<input
-						type='password'
-						name='password'
-						placeholder='Password'
-						value={password}
-						required={true}
-						onChange={(e) => setPassword(e.target.value)}
-						autoComplete='current-password'
-						disabled={loading}
-						className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-					/>
-
-					{codeEnabled && (
-						<input
-							type='text'
-							name='2fa'
-							autoComplete='off'
-							placeholder='Two Factor Authentication'
-							value={code}
-							onChange={(e) => setCode(e.target.value)}
-							disabled={loading}
-							className={`input-field ${loading ? "cursor-not-allowed opacity-50" : ""}`}
-							autoFocus
-						/>
-					)}
 					<button type='submit' disabled={loading} className='submit-button'>
 						{loading ? <LoadingSpin /> : "Login"}
 					</button>

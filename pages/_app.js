@@ -21,7 +21,7 @@ const App = ({ Component, pageProps }) => {
 		"/trades",
 		"/transfer",
 	];
-	const premiumRoutes = ["/mintsearch"];
+	const premiumRoutes = [];
 	return (
 		<>
 			<UserContextProvider>
