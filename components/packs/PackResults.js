@@ -50,16 +50,27 @@ const PackResults = React.memo(
 						Inventory Count:{" "}
 						<span className='font-semibold text-indigo-500'>{pack.inventoryCount}</span>
 					</div>
-					<div>
-						Total Opened:{" "}
-						<span className='font-semibold text-indigo-500'>{pack.openedCount}</span>
-					</div>
-					<div>
-						Packs Unopened:{" "}
-						<span className='font-semibold text-orange-500'>
-							{pack.mintCount - pack.openedCount}
-						</span>
-					</div>
+					{pack.burned ? (
+						<div>
+							Total Burned:{" "}
+							<span className='font-semibold text-indigo-500'>{pack.burned}</span>
+						</div>
+					) : null}
+					{pack.openedCount ? (
+						<div>
+							Total Opened:{" "}
+							<span className='font-semibold text-indigo-500'>{pack.openedCount}</span>
+						</div>
+					) : null}
+					{pack.openedCount ? (
+						<div>
+							Packs Unopened:{" "}
+							<span className='font-semibold text-orange-500'>
+								{pack.mintCount - pack.openedCount}
+							</span>
+						</div>
+					) : null}
+
 					<div>
 						Season:{" "}
 						<span className='font-semibold text-indigo-500'>
