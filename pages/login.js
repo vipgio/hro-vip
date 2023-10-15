@@ -65,8 +65,8 @@ const Login = () => {
 				<span className='pb-2 text-xl font-semibold text-gray-700 dark:text-gray-300'>
 					Login using your Hro account
 				</span>
-				<ReCAPTCHA sitekey={"0da71416-b1e2-480c-a16a-405a41e787a1"} />
-				{/* <form
+				{/* <ReCAPTCHA sitekey={"0da71416-b1e2-480c-a16a-405a41e787a1"} /> */}
+				<form
 					className='flex flex-col items-center space-y-2 rounded-md border border-gray-700 p-2 dark:border-gray-300'
 					onSubmit={onSubmit}
 				>
@@ -93,7 +93,7 @@ const Login = () => {
 							direction='right'
 						/>
 					</div>
-				</form> */}
+				</form>
 				<div className='absolute bottom-0 h-8 w-full border-t border-gray-600 p-1 dark:border-gray-400'>
 					<span className='text-sm text-gray-700 dark:text-gray-300'>
 						Cool site logo by{" "}
