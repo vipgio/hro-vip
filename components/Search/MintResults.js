@@ -73,11 +73,7 @@ const MintResults = ({
 							sortBy(results, [(o) => o.mintNumber, (o) => o.cardTemplateId]),
 							(o) => o.id
 						).map((item) => (
-							<MintResultRow
-								item={item}
-								allowed={user.info.allowed.includes("history")}
-								key={item.id}
-							/>
+							<MintResultRow item={item} key={item.id} />
 						))}
 					</tbody>
 				</table>

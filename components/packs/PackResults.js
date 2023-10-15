@@ -48,7 +48,13 @@ const PackResults = React.memo(
 					</div>
 					<div>
 						Inventory Count:{" "}
-						<span className='font-semibold text-indigo-500'>{pack.inventoryCount}</span>
+						<span className='font-semibold text-indigo-500'>
+							{pack.inventoryCount}
+							<span className='ml-1 text-orange-500'>
+								({((pack.inventoryCount / pack.mintCount) * 100).toFixed(2)}
+								%)
+							</span>
+						</span>
 					</div>
 					{pack.burned ? (
 						<div>

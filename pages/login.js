@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FaGithub } from "react-icons/fa";
@@ -26,7 +27,7 @@ const Login = () => {
 					...data.data,
 				},
 				jwt: jwt,
-				info: { allowed: [] },
+				info: { allowed: ["history"] },
 			});
 			setLoading(false);
 		} catch (err) {
@@ -64,7 +65,8 @@ const Login = () => {
 				<span className='pb-2 text-xl font-semibold text-gray-700 dark:text-gray-300'>
 					Login using your Hro account
 				</span>
-				<form
+				<ReCAPTCHA sitekey={"0da71416-b1e2-480c-a16a-405a41e787a1"} />
+				{/* <form
 					className='flex flex-col items-center space-y-2 rounded-md border border-gray-700 p-2 dark:border-gray-300'
 					onSubmit={onSubmit}
 				>
@@ -91,7 +93,7 @@ const Login = () => {
 							direction='right'
 						/>
 					</div>
-				</form>
+				</form> */}
 				<div className='absolute bottom-0 h-8 w-full border-t border-gray-600 p-1 dark:border-gray-400'>
 					<span className='text-sm text-gray-700 dark:text-gray-300'>
 						Cool site logo by{" "}

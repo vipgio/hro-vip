@@ -73,11 +73,7 @@ const MarketResults = ({
 					</thead>
 					<tbody>
 						{shownResults.map((item) => (
-							<MarketResultRow
-								item={item}
-								allowed={user.info.allowed.includes("history")}
-								key={item.marketId}
-							/>
+							<MarketResultRow item={item} key={item.marketId} />
 						))}
 					</tbody>
 				</table>

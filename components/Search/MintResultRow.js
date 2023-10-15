@@ -35,19 +35,12 @@ const MintResultRow = ({ item, allowed }) => {
 			</td>
 			<td className='py-1 px-2 sm:py-3 sm:px-6'>
 				<div className='relative flex h-8 items-center justify-center'>
-					{allowed ? (
-						showHistory ? (
-							<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} />
-						) : (
-							<button onClick={openModal}>
-								<FaHistory />
-							</button>
-						)
+					{showHistory ? (
+						<HistoryModal data={item} isOpen={showHistory} setIsOpen={setShowHistory} />
 					) : (
-						<FaLock
-							className='cursor-not-allowed'
-							title='You need history access for this feature'
-						/>
+						<button onClick={openModal}>
+							<FaHistory />
+						</button>
 					)}
 				</div>
 			</td>
