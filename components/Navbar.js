@@ -1,28 +1,15 @@
 import { useContext, forwardRef, useState } from "react";
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
-import { AiOutlineScan, AiOutlineHome, AiOutlineFire } from "react-icons/ai";
+import { AiOutlineScan, AiOutlineHome } from "react-icons/ai";
 import { FaHistory, FaSearch, FaLock, FaMoon, FaSun, FaDiscord } from "react-icons/fa";
-import { TbArrowMerge } from "react-icons/tb";
-import { BsArrowLeftRight } from "react-icons/bs";
 import { UserContext } from "context/UserContext";
 import { ThemeContext } from "context/ThemeContext";
 import BurgerMenuIcon from "./BurgerMenuIcon";
-import TradeModal from "./trade/TradeModal";
 
 const Navbar = () => {
-	const { user, tradeList } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const { theme, setTheme } = useContext(ThemeContext);
-	const [showTradeModal, setShowTradeModal] = useState(false);
-	const sendItems =
-		tradeList.send && tradeList.send[0] ? tradeList.send[0].items.length : 0;
-	const receiveItems = tradeList.receive
-		? tradeList.receive.reduce(
-				(previousValue, currentValue) => previousValue + currentValue.items.length,
-				0
-		  )
-		: 0;
-	const cardsInTrade = sendItems + receiveItems;
 	return (
 		user && (
 			<nav className='flex h-12 items-center justify-center rounded-b-md bg-main-500 font-semibold text-gray-700 shadow-lg transition-colors dark:bg-slate-500 dark:text-gray-300'>
@@ -88,33 +75,8 @@ const Navbar = () => {
 						</>
 					)}
 				</Menu>
-				<div className='ml-auto mt-1 mr-2'>
-					{user.info.allowed.includes("trades") && (
-						<button
-							className='my-outline relative rounded text-gray-700 dark:text-gray-300'
-							// onClick={() => console.log(tradeList)}
-							onClick={() => setShowTradeModal(true)}
-						>
-							<BsArrowLeftRight
-								className='h-5 w-5'
-								title={
-									cardsInTrade === 0
-										? "No items in your trade list. Use the Scanner to add items"
-										: "Trade"
-								}
-							/>
-							{cardsInTrade !== 0 && (
-								<div
-									className='absolute top-1 right-full mr-1 font-semibold'
-									title='Items in the trade list'
-								>
-									{cardsInTrade}
-								</div>
-							)}
-						</button>
-					)}
-				</div>
-				<button className='mx-2 h-5 w-5' tabIndex={-1}>
+
+				<button className='ml-auto h-5 w-5' tabIndex={-1}>
 					<a
 						href='https://discordapp.com/users/473436055958192128'
 						target='_blank'
@@ -147,9 +109,6 @@ const Navbar = () => {
 						Features
 					</a>
 				</Link>
-				{showTradeModal && (
-					<TradeModal showModal={showTradeModal} setShowModal={setShowTradeModal} />
-				)}
 			</nav>
 		)
 	);

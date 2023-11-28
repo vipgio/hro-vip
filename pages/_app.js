@@ -18,7 +18,6 @@ const App = ({ Component, pageProps }) => {
 		"/packs",
 		"/profile",
 		"/scanner",
-		"/trades",
 		"/transfer",
 	];
 	const premiumRoutes = [];

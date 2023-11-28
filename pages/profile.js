@@ -157,7 +157,6 @@ const features = {
 	mintsearch: { name: "Mint Search", link: "/mintsearch" },
 	cardlister: { name: "Card Lister", link: "/cardlister" },
 	history: { name: "History", link: "/history" },
-	trades: { name: "Trades", link: "" },
 	feed: { name: "Custom Feed", link: "" },
 	transfer: { name: "Account Transfer", link: "/transfer" },
 	transfer: { name: "Mass Burner", link: "/burner" },

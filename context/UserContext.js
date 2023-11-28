@@ -10,13 +10,6 @@ const UserContextProvider = (props) => {
 	const [loading, setLoading] = useState(false); // loading state for fetchig data
 	const [user, setUser] = useState(null); // user object
 	const [initialLoading, setInitialLoading] = useState(true); // used to show loading screen on first load and redirect
-	const [tradeList, setTradeList] = useState({
-		// send: {
-		// 	items: [],
-		// 	bestOwned: [],
-		// },
-		// receive: [{ user: "", id: "", items: [], bestOwned: [] }],
-	});
 	const [owned, setOwned] = useState([]);
 	const router = useRouter();
 
@@ -40,21 +33,6 @@ const UserContextProvider = (props) => {
 		}
 		setInitialLoading(false);
 	}, [user]);
-
-	useEffect(() => {
-		const localTrade = localStorage.getItem("tradeList");
-		if (localTrade) {
-			setTradeList(JSON.parse(localTrade));
-		}
-	}, [router.asPath]);
-
-	useEffect(() => {
-		if (tradeList) {
-			localStorage.setItem("tradeList", JSON.stringify(tradeList));
-		} else {
-			localStorage.removeItem("tradeList");
-		}
-	}, [tradeList]);
 
 	const getCardCirc = async (collectionId) => {
 		return http(
@@ -100,8 +78,6 @@ const UserContextProvider = (props) => {
 				getPacks,
 				userPacks,
 				initialLoading,
-				tradeList,
-				setTradeList,
 				setOwned,
 				owned,
 			}}

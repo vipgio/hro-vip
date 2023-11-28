@@ -21,13 +21,13 @@ const Login = () => {
 					jwt: jwt,
 				},
 			});
-			console.log(data);
 			setUser({
 				user: {
 					...data.data,
 				},
 				jwt: jwt,
 				info: { allowed: ["history"] },
+				expires: Date.now() / 1000 + 5400,
 			});
 			setLoading(false);
 		} catch (err) {
